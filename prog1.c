@@ -6,7 +6,7 @@
 #include  <sys/sem.h>
 #include "awk_sem.h"
 
-main() {
+int main() {
   int semid ;
 
   semid = create_sem(".",'S',0);
@@ -19,7 +19,7 @@ main() {
     
   //destroy_sem(semid);
   //printf("(prog1) semaphore removed\n");
-
+  return 0;
 }
       
     

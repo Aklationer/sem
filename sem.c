@@ -12,7 +12,7 @@ static struct sembuf increase = { 0, 1, 0 } ;
 //-------------------------------------------------------
 // create_sem() creates an semaphore and return 1
 //-------------------------------------------------------
-int create_sem(char *path, char name, int initval) {
+int create_sem(char *path, char name, int initval) {      // 創建一個semaphore
   key_t ipc_key ;	
   union semun arg ;
   static ushort start_val[1] = { 0 } ;
@@ -36,7 +36,7 @@ int create_sem(char *path, char name, int initval) {
 // register_sem() use a path and a char to locate an existing semaphore and
 // return its semphore id
 //-------------------------------------------------------------------------- 
-int get_sem(char *path, char name) {
+int get_sem(char *path, char name) {  // 返回一個已經存在的semaphore，若不存在返回-1
   int semid ;
   key_t ipc_key ;
 
@@ -48,23 +48,23 @@ int get_sem(char *path, char name) {
 // because wait() and signal() are easy to be confused with
 // monitor's wait() and signal(), so we use name P and V
 //---------------------------------------------------------
-void P(int semid) {
+void P(int semid) {      // semaphore 減1 就是wait
     semop(semid, &decrease, 1 );
 }
-void V(int semid) {
+void V(int semid) {      // semaphore 加1
     semop(semid, &increase, 1);
 }
 //---------------------------------------------------------
 // remove_sem removes a semaphore 
 //---------------------------------------------------------
-void destroy_sem(int semid) {
+void destroy_sem(int semid) {         // 刪除semaphore
   if (semctl(semid,0,IPC_RMID,0) == -1) {
     perror("semctl -- remove");
     exit(1);
   }
 }
 //--------------------------------------------------------
-int get_blocked_no(int semid) {
+int get_blocked_no(int semid) {    // 獲取有多少process在等這個semaphore
   int waitno ;
   union semun arg ;
   static ushort vals[1] ;
@@ -80,7 +80,7 @@ int get_blocked_no(int semid) {
   return waitno ;
 }
 //--------------------------------------------------------
-int  get_sem_val(int semid) {
+int  get_sem_val(int semid) {  // 獲取semaphore的當前值
 
   int semval ;
   union semun arg ;

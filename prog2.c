@@ -6,9 +6,9 @@
 #include  <sys/sem.h>
 #include "awk_sem.h"
 
-main() {
+int main() {
   int semid ;
-   
+
   semid = get_sem(".",'S');
 
   printf("\n\n(prog2) the NO. of blocked processes of the semphore is [%d]\n",
@@ -21,6 +21,7 @@ main() {
   V(semid);
 
   printf("(prog2) quit !\n");
+  return 0;
 }
       
     
